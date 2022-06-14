@@ -1,4 +1,9 @@
+import 'package:bookspot/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../profile.dart';
+import '../transactionsscreen.dart';
 
 class BottomNavigationBookSpot extends StatefulWidget {
   const BottomNavigationBookSpot({Key? key}) : super(key: key);
@@ -11,6 +16,11 @@ class _BottomNavigationBookSpotState extends State<BottomNavigationBookSpot> {
   @override
   int _selectedIndex=0;
   int _currentIndex=0;
+  List<Widget> widgetoptions=<Widget>[
+    HomeScreen(),
+    Transactions(),
+    Profile()
+  ];
   Widget build(BuildContext context) {
     return Container(
       child: BottomNavigationBar(
