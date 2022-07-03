@@ -184,6 +184,7 @@ class _SignUpState extends State<SignUp> {
                       final email = controller_email.text.trim();
                       final password = controller_pswd.text.trim();
                       final phoneno_s = controller_phone.text;
+
                       int phoneno = int.parse(phoneno_s);
                       final regexp =
                           RegExp(r'(^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$)');
@@ -200,7 +201,9 @@ class _SignUpState extends State<SignUp> {
                             name: name,
                             email: email,
                             password: password,
-                            phone: phoneno);
+                            phone: phoneno,
+                            image:"null"
+                        );
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             backgroundColor: Colors.green,
                             behavior: SnackBarBehavior.floating,

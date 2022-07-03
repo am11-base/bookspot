@@ -12,7 +12,8 @@ class _State extends State<AddBook> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BookSpot'),
+        title: const Text('Add Book'),
+        centerTitle: true,
         ),
       body: SingleChildScrollView(
         child: TextField(

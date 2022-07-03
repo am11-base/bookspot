@@ -21,9 +21,15 @@ class _BottomNavigationBookSpotState extends State<BottomNavigationBookSpot> {
     Transactions(),
     Profile()
   ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   Widget build(BuildContext context) {
     return Container(
       child: BottomNavigationBar(
+        currentIndex:_selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -41,7 +47,7 @@ class _BottomNavigationBookSpotState extends State<BottomNavigationBookSpot> {
             backgroundColor: Colors.black,
           ),
         ],
-        currentIndex: _selectedIndex,
+       onTap: _onItemTapped,
         selectedItemColor: Colors.amber[800],
       ),
     );

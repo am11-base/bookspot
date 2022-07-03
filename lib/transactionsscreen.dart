@@ -10,12 +10,9 @@ class Transactions extends StatefulWidget {
 class _TransactionsState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Transactions"),
-        centerTitle: true,
-      ),
-      body:SingleChildScrollView(
+    return Container(
+
+      child:SingleChildScrollView(
 
       ),
     );

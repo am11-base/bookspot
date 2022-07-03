@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bookspot/widgets/add_image_profile.dart';
 
 class AddBooks extends StatefulWidget {
-  const AddBooks({Key? key}) : super(key: key);
+  final String? email;
+  const AddBooks(this.email, {Key? key}) : super(key: key);
 
   @override
   State<AddBooks> createState() => _AddBooksState();
@@ -14,9 +15,12 @@ class _AddBooksState extends State<AddBooks> {
     return Scaffold(
       appBar: AppBar(
         title: Text('BookSpot'),
+        centerTitle: true,
       ),
-      body: AddImageProfile(),
+      body: SingleChildScrollView(
 
+      child:AddImageProfile(widget.email),
+      )
     );
   }
 }

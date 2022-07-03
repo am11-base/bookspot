@@ -39,4 +39,8 @@ class Authentication {
     return 1;
   }
 
+  Future getCurrentUser() async{
+    return await auth.currentUser!;
+  }
+
 }
