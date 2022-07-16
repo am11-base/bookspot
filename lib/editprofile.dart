@@ -1,5 +1,7 @@
+import 'package:bookspot/authentication.dart';
 import 'package:bookspot/home_screen.dart';
 import 'package:bookspot/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,10 +12,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'database.dart';
 
 class EditProfile extends StatefulWidget {
-  final String? email;
+  final AsyncSnapshot snapshot;
   final String? imgurl;
-  const EditProfile(this.email, this.imgurl, {Key? key}) : super(key: key);
-
+  const EditProfile(this.snapshot,this.imgurl, {Key? key}) : super(key: key);
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -25,10 +26,17 @@ class _EditProfileState extends State<EditProfile> {
   String? url;
   bool isloading=false;
   final ImagePicker picker = ImagePicker();
+
   FirebaseStorage storage = FirebaseStorage.instance;
-  final controller_name = TextEditingController();
-  final controller_pswd = TextEditingController();
-  final controller_phone = TextEditingController();
+   var controller_name;
+  var controller_pswd ;
+  var controller_phone ;
+  void initState()
+  {
+    controller_name = TextEditingController(text:'${widget.snapshot.data['name']}');
+    controller_pswd = TextEditingController(text:'${widget.snapshot.data['password']}');
+    controller_phone = TextEditingController(text:'${widget.snapshot.data['phone']}');
+  }
 
   Future<String> uploadFile(File file, String filename) async {
     //File file1=File(file);
@@ -141,6 +149,7 @@ class _EditProfileState extends State<EditProfile> {
                       horizontal: MediaQuery.of(context).size.width * 0.02),
                   child: RaisedButton(
                     onPressed: () async {
+                      String a1="";
                       if (picked1 != null) {
                         setState(() {
                           isloading=true;
@@ -156,10 +165,23 @@ class _EditProfileState extends State<EditProfile> {
                       final regexp =
                           RegExp(r'(^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$)');
                       dynamic noflag = regexp.hasMatch(phoneno_s);
-                      if (noflag == true) {
+
+                      User u=await Authentication().getCurrentUser();
+                      print(widget.snapshot.data['password']);
+                      u.reauthenticateWithCredential(EmailAuthProvider.credential(email: widget.snapshot.data['email'], password:  widget.snapshot.data['password']));
+                      try{
+                        await u.updatePassword(password);
+                      }
+                      catch(e)
+                      {
+                        print(e.toString());
+                        String a=e.toString();
+                        a1=(a.substring(a.indexOf(']')+1));
+                      }
+                      if (noflag == true&&a1.compareTo("")==0) {
                         var a = DatabaseServices().updateUser(
                             name: name1,
-                            email: widget.email!,
+                            email: widget.snapshot.data['email'],
                             password: password,
                             phone: phoneno,
                             pic: url!);
@@ -192,7 +214,10 @@ class _EditProfileState extends State<EditProfile> {
                                 pageBuilder: (_, a1, a2) => HomeScreen()));
                       } else {
                         String msg;
-                        msg = "Invalid Number";
+                        if(noflag==false)
+                         msg = "Invalid Number";
+                        else
+                          msg=a1;
 
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             backgroundColor: Colors.red,

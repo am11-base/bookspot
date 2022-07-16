@@ -184,73 +184,97 @@ class _SignUpState extends State<SignUp> {
                       final email = controller_email.text.trim();
                       final password = controller_pswd.text.trim();
                       final phoneno_s = controller_phone.text;
+                      if(email.compareTo("")==0||name.compareTo("")==0||password.compareTo("")==0||phoneno_s.compareTo("")==0){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                backgroundColor: Colors.red,
+                                behavior: SnackBarBehavior.floating,
+                                elevation: 0,
+                                duration: Duration(seconds: 2),
+                                content: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.all(Radius.circular(20))
+                                  ),
+                                  child: Text(
+                                    "Please Enter the details",
+                                    style: TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.white
+                                    ),
+                                  ),
 
-                      int phoneno = int.parse(phoneno_s);
-                      final regexp =
-                          RegExp(r'(^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$)');
-                      dynamic noflag = regexp.hasMatch(phoneno_s);
-                      dynamic flag = 'a';
-                      if (noflag == true) {
-                        flag = await Authentication().signUp(
-                          email: email,
-                          password: password,
-                        );
-                      }
-                      if (flag == 'a' && noflag == true) {
-                        var a = DatabaseServices().createUser(
-                            name: name,
+                                )
+                            )
+                        );}
+                      else {
+                        int phoneno = int.parse(phoneno_s);
+                        final regexp =
+                        RegExp(r'(^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$)');
+                        dynamic noflag = regexp.hasMatch(phoneno_s);
+                        dynamic flag = 'a';
+                        if (noflag == true) {
+                          flag = await Authentication().signUp(
                             email: email,
                             password: password,
-                            phone: phoneno,
-                            image:"null"
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: Colors.green,
-                            behavior: SnackBarBehavior.floating,
-                            elevation: 0,
-                            duration: Duration(seconds: 1),
-                            content: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              child: Text(
-                                "Successfull",
-                                style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.white),
-                              ),
-                            )));
-                        Future.delayed(Duration(milliseconds: 300), () {
-                          // Do something
-                        });
-                        Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                                pageBuilder: (_, a1, a2) => Login()));
-                      } else {
-                        String msg;
-                        if (noflag == false)
-                          msg = "Invalid Number";
-                        else
-                          msg = flag;
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: Colors.red,
-                            behavior: SnackBarBehavior.floating,
-                            elevation: 0,
-                            content: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              child: Text(
-                                msg,
-                                style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.white),
-                              ),
-                            )));
-                        print("hello");
+                          );
+                        }
+                        if (flag == 'a' && noflag == true) {
+                          var a = DatabaseServices().createUser(
+                              name: name,
+                              email: email,
+                              password: password,
+                              phone: phoneno,
+                              image: "null"
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.green,
+                              behavior: SnackBarBehavior.floating,
+                              elevation: 0,
+                              duration: Duration(seconds: 1),
+                              content: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                                child: Text(
+                                  "Successfull",
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.white),
+                                ),
+                              )));
+                          Future.delayed(Duration(milliseconds: 300), () {
+                            // Do something
+                          });
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                  pageBuilder: (_, a1, a2) => Login()));
+                        } else {
+                          String msg;
+                          if (noflag == false)
+                            msg = "Invalid Number";
+                          else
+                            msg = flag;
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              elevation: 0,
+                              content: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                                child: Text(
+                                  msg,
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.white),
+                                ),
+                              )));
+                          print("hello");
+                        }
                       }
                     },
                     child: Row(

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bookspot/authentication.dart';
 import 'package:bookspot/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,17 @@ class _LoginState extends State<Login> {
   @override
   void initState()
   {
+    Authentication().getCurrentUser().then((user) {
+        if (user != null) { //if there isn't any user currentUser function returns a null so we should check this case.
+          Navigator.pushAndRemoveUntil(
+            // we are making YourHomePage widget the root if there is a user.
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+                  (Route<dynamic> route) => false);
+        }
+      });
+      super.initState();
+
     passwordvisible=false;
   }
   Widget build(BuildContext context) {
@@ -149,11 +161,37 @@ class _LoginState extends State<Login> {
                       color: Colors.black87,
                       onPressed: ()async
                       {
-                        setState(() {
-                          isloading=true;
-                        });
+
                        final email=controller_email.text.trim();
                        final pswd=controller_pswd.text.trim();
+                       if(email.compareTo("")==0||pswd.compareTo("")==0){
+                         ScaffoldMessenger.of(context).showSnackBar(
+                             SnackBar(
+                                 backgroundColor: Colors.red,
+                                 behavior: SnackBarBehavior.floating,
+                                 elevation: 0,
+                                 duration: Duration(seconds: 2),
+                                 content: Container(
+                                   decoration: BoxDecoration(
+                                       color: Colors.transparent,
+                                       borderRadius: BorderRadius.all(Radius.circular(20))
+                                   ),
+                                   child: Text(
+                                     "Please Enter the details",
+                                     style: TextStyle(
+                                         fontStyle: FontStyle.italic,
+                                         color: Colors.white
+                                     ),
+                                   ),
+
+                                 )
+                             )
+                         );}
+                       else{
+                         setState(() {
+                           isloading=true;
+                         });
+
 
                         dynamic result =await Authentication().signIn(email: email, password: pswd);
                         setState(() {
@@ -190,7 +228,7 @@ class _LoginState extends State<Login> {
                                 )
                             );
                           }
-                       }
+                       }}
                       ,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

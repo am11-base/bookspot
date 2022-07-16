@@ -1,3 +1,5 @@
+import 'package:bookspot/navdrawer.dart';
+import 'package:bookspot/viewbooks.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +7,7 @@ import '../add_books.dart';
 
 class Search_Textfield_BookSpot extends StatefulWidget {
   final String? email;
-  const Search_Textfield_BookSpot(this.email, {Key? key}) : super(key: key);
+  const  Search_Textfield_BookSpot(this.email, {Key? key}) : super(key: key);
 
   @override
   State<Search_Textfield_BookSpot> createState() =>
@@ -16,6 +18,7 @@ class _Search_Textfield_BookSpotState extends State<Search_Textfield_BookSpot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerMain(widget.email),
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
         child: Column(
@@ -29,7 +32,7 @@ class _Search_Textfield_BookSpotState extends State<Search_Textfield_BookSpot> {
             ),
             //  FutureBuilder(builder: builder)
             FutureBuilder(
-                future: FirebaseFirestore.instance.collection('books').get(),
+                future: FirebaseFirestore.instance.collection('books').where('email',isNotEqualTo: widget.email).get(),
                 builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     print(snapshot.data.docs.length);
@@ -51,7 +54,10 @@ class _Search_Textfield_BookSpotState extends State<Search_Textfield_BookSpot> {
                           onTap: () {
                             print("clicked");
                             print(snapshot.data.docs[position]['category']);
-
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                    pageBuilder: (_, a1, a2) => ViewBooks(snapshot.data.docs[position],widget.email)));
                           },
                           child: Container(
                            // width: MediaQuery.of(context).size.width,

@@ -18,7 +18,7 @@ class _BottomNavigationBookSpotState extends State<BottomNavigationBookSpot> {
   int _currentIndex=0;
   List<Widget> widgetoptions=<Widget>[
     HomeScreen(),
-    Transactions(),
+    Transactions('hi'),
     Profile()
   ];
   void _onItemTapped(int index) {

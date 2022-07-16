@@ -222,6 +222,7 @@ class _AddImageProfileState extends State<AddImageProfile> {
       String? email}) async {
     final docBook = FirebaseFirestore.instance.collection('books').doc();
     final json = {
+      'id':docBook.id,
       'title': title,
       'author': author,
       'category': category,

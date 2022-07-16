@@ -42,5 +42,16 @@ class Authentication {
   Future getCurrentUser() async{
     return await auth.currentUser!;
   }
+  Future logout() async {
+    try{
+    await auth.signOut();
+  }
+  catch(e)
+    {
+      print("Error in logging out");
+    }
+    }
+
+
 
 }

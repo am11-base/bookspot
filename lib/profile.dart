@@ -65,7 +65,9 @@ class _ProfileState extends State<Profile> {
                                                 0.03),
                                         child: CircleAvatar(
                                           radius: 50,
-                                          backgroundImage:NetworkImage('${imageurl}')
+                                          backgroundImage:FadeInImage.assetNetwork(
+                                          placeholder:'assets/Loading_2.gif' ,
+                                          image:imageurl!).image
 
                                         ),
                                       ),
@@ -158,7 +160,7 @@ class _ProfileState extends State<Profile> {
                                           child: Text('Edit Profile'),
                                           onPressed: (){
                                             Navigator.push(context,
-                                                PageRouteBuilder(pageBuilder: (_, a1, a2) => EditProfile(email,imageurl)));
+                                                PageRouteBuilder(pageBuilder: (_, a1, a2) => EditProfile(snapshot,imageurl)));
                                           },
                                         ),
                                       ),
