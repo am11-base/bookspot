@@ -13,7 +13,8 @@ class DatabaseServices
        'email':email,
       'password':password,
       'phone':phone,
-      'image':image
+      'image':image,
+      'coin':50,
 
 
     };

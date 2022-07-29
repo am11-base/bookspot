@@ -56,14 +56,20 @@ class _EditProfileState extends State<EditProfile> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Edit Profile')),
+        appBar: AppBar(
+          title: Text("Edit Profile",style: TextStyle(color: Colors.black)),
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+        ),
         body: SingleChildScrollView(
           child: Stack(
             children:[ Column(
               children: [
                 Padding(
                     padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height * 0.05,
+                        vertical: MediaQuery.of(context).size.height * 0.04,
                         horizontal: MediaQuery.of(context).size.width * 0.4),
                     child: Stack(
                       children: [
@@ -95,7 +101,7 @@ class _EditProfileState extends State<EditProfile> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(
                       MediaQuery.of(context).size.width * 0.03,
-                      MediaQuery.of(context).size.height * 0.04,
+                      MediaQuery.of(context).size.height * 0.03,
                       MediaQuery.of(context).size.width * 0.03,
                       0),
                   child: TextField(
@@ -145,7 +151,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.02,
+                      vertical: MediaQuery.of(context).size.height * 0.05,
                       horizontal: MediaQuery.of(context).size.width * 0.02),
                   child: RaisedButton(
                     onPressed: () async {
@@ -168,7 +174,7 @@ class _EditProfileState extends State<EditProfile> {
 
                       User u=await Authentication().getCurrentUser();
                       print(widget.snapshot.data['password']);
-                      u.reauthenticateWithCredential(EmailAuthProvider.credential(email: widget.snapshot.data['email'], password:  widget.snapshot.data['password']));
+                      await u.reauthenticateWithCredential(EmailAuthProvider.credential(email: widget.snapshot.data['email'], password:  widget.snapshot.data['password']));
                       try{
                         await u.updatePassword(password);
                       }
@@ -238,7 +244,8 @@ class _EditProfileState extends State<EditProfile> {
                         print("hello");
                       }
                     },
-                    child: Text("Submit"),
+                    child: Text("Submit",style:TextStyle(fontSize: 18)),
+                    color: Colors.lightGreen
                   ),
                 )
               ],

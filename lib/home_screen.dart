@@ -8,7 +8,7 @@ import 'package:bookspot/widgets/search_textfield.dart';
 import 'add_books.dart';
 import 'authentication.dart';
 import 'navdrawer.dart';
-
+import 'package:loading_animations/loading_animations.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -38,41 +38,50 @@ class _HomeScreenState extends State<HomeScreen> {
       if (snapshot.connectionState == ConnectionState.done) {
         User a = snapshot.data;
         email = a.email;
+        print(email);
         return Scaffold(
-
+          backgroundColor: Colors.white,
           appBar: AppBar(
-            title: Text('BookSpot'),
+            title: Text('BookSpot',style: TextStyle(color: Colors.black,),),
+            backgroundColor: Color(0xFFb2c8df),
+            elevation: 0,
             centerTitle: true,
+            iconTheme: IconThemeData(color: Colors.black),
           ),
           body: widgetoptions().elementAt(_selectedIndex),
           drawer: DrawerMain(email),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-                backgroundColor: Colors.black,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.mms),
-                label: 'Transaction',
-                backgroundColor: Colors.black,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-                backgroundColor: Colors.black,
-              ),
-            ],
-            onTap: _onItemTapped,
-            selectedItemColor: Colors.cyan,
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.black, width: 0.5))),
+            child: BottomNavigationBar(
+              backgroundColor:Colors.white,
+              currentIndex: _selectedIndex,
+              items:  <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                  backgroundColor: Colors.grey[400],
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.mms,),
+                  label: 'Transaction',
+                  backgroundColor: Colors.grey[400],
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                  backgroundColor: Colors.grey[400],
+                ),
+              ],
+              onTap: _onItemTapped,
+              selectedItemColor: Colors.black,
+            ),
           ),
         );
       }
       else {
         return Center(
-          child: CircularProgressIndicator(),
+          child:LoadingBouncingGrid.square(),
         );
       }
     } );

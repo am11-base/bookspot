@@ -4,7 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animations/loading_animations.dart';
 import 'package:path/path.dart' as Path;
+import 'package:audioplayers/audioplayers.dart';
 
 import '../home_screen.dart';
 
@@ -17,6 +19,7 @@ class AddImageProfile extends StatefulWidget {
 }
 
 class _AddImageProfileState extends State<AddImageProfile> {
+  final player = AudioPlayer();
   bool isloading = false;
   final author1 = TextEditingController();
   final title1 = TextEditingController();
@@ -53,16 +56,17 @@ class _AddImageProfileState extends State<AddImageProfile> {
                 vertical: MediaQuery.of(context).size.height * 0.01,
                 horizontal: MediaQuery.of(context).size.width * 0.01),
             child: Text(
-              'Add Image',
+              'Add Book Details',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: 22
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(
                 MediaQuery.of(context).size.width * 0.01,
-                MediaQuery.of(context).size.height * 0.01,
+                MediaQuery.of(context).size.height * 0.03,
                 MediaQuery.of(context).size.width * 0.01,
                 MediaQuery.of(context).size.height * 0.02),
             //child: Image.asset('assets/images/profile1.png'),
@@ -72,12 +76,12 @@ class _AddImageProfileState extends State<AddImageProfile> {
                 takephoto(ImageSource.gallery);
               },
               icon: Icon(Icons.photo),
-              label: Text("Gallery"),
+              label: Text("Pick"),
               style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.black87),
-                  backgroundColor: MaterialStateProperty.all(Colors.white)),
+                  foregroundColor: MaterialStateProperty.all(Colors.black),
+                  backgroundColor: MaterialStateProperty.all(Color(0xFFeceaf6)),
             ),
-          ),
+          )),
           Padding(
             padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height * 0.02,
@@ -123,7 +127,8 @@ class _AddImageProfileState extends State<AddImageProfile> {
           Padding(
             padding: EdgeInsets.fromLTRB(100, 30, 150, 50),
           ),
-          ElevatedButton(
+          MaterialButton(
+            color: Color(0xff5ab79d),
             onPressed: () async {
               if (_images == null) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -178,7 +183,7 @@ class _AddImageProfileState extends State<AddImageProfile> {
                     isloading = false;
                   });
 
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  /*ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       backgroundColor: Colors.green,
                       behavior: SnackBarBehavior.floating,
                       elevation: 0,
@@ -193,22 +198,40 @@ class _AddImageProfileState extends State<AddImageProfile> {
                           style: TextStyle(
                               fontStyle: FontStyle.italic, color: Colors.white),
                         ),
-                      )));
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                          pageBuilder: (_, a1, a2) => HomeScreen()));
+                      )));*/
+                  await updatecoin(widget.email);
+                  await player.play(AssetSource('sound.mp3'));
+                  showDialog(context: context, builder: (BuildContext context)=>Container(
+                    width: 300,
+                    child: AlertDialog(
+                      title: Text("Congratulations"),
+                      content: Text("You have earned 25 coins!"),
+                      actions: [
+                        MaterialButton(child:Text("OK"),onPressed: (){
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                  pageBuilder: (_, a1, a2) => HomeScreen()));
+                        })
+                      ],
+                    ),
+                  ));
+
                 }
               }
             },
-            child: Text('Submit'),
+            child: Text('Submit',style: TextStyle(fontSize: 20,color: Colors.white),),
+
           ),
         ]),
         Opacity(
           opacity: isloading == true? 1 : 0,
           child: Padding(
               padding: EdgeInsets.symmetric(vertical:MediaQuery.of(context).size.height*0.3,horizontal: MediaQuery.of(context).size.width*0.4),
-              child: CircularProgressIndicator(color: Colors.black87,)),
+              child: LoadingBouncingGrid.square(
+                backgroundColor: Colors.blue,
+              )),
         )
       ])),
     );
@@ -223,6 +246,7 @@ class _AddImageProfileState extends State<AddImageProfile> {
     final docBook = FirebaseFirestore.instance.collection('books').doc();
     final json = {
       'id':docBook.id,
+      'status':'available',
       'title': title,
       'author': author,
       'category': category,
@@ -243,5 +267,25 @@ class _AddImageProfileState extends State<AddImageProfile> {
     setState(() {
       _images = File(path1);
     });
+  }
+
+  Future updatecoin(String? email) async{
+    int coin=await getcoin(email);
+    int ncoin=coin+25;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(email)
+        .update({'coin': ncoin});
+  }
+  Future<int> getcoin(String? email) async {
+    final snapshot= await FirebaseFirestore.instance
+        .collection('users')
+        .doc(email)
+        .get();
+    int a=snapshot.data()!['coin'];
+    print(a);
+    return a;
+
+
   }
 }
