@@ -9,3 +9,4 @@ lending of books. The software is developed to bridge the gap between bibliophil
 to develop a community of book readers. Anyone interested in reading books of any genre and
 any Indian languages shall find this app useful.
 
+ [Download](https://github.com/am11-base/bookspot/releases/tag/v1.0.0)
