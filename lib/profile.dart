@@ -257,7 +257,7 @@ class _ProfileState extends State<Profile> {
 
 class ViewAddedBook extends StatefulWidget {
   final String? email;
-  const ViewAddedBook(this.email, {Key? key}) : super(key: key);
+  const  ViewAddedBook(this.email, {Key? key}) : super(key: key);
 
   @override
   _ViewAddedBookState createState() => _ViewAddedBookState();
@@ -316,102 +316,100 @@ class _ViewAddedBookState extends State<ViewAddedBook> {
                               print(
                                   snapshot.data.docs[position]['category']);
                             },
-                            child: Expanded(
-                              child: Container(
-                                // width: MediaQuery.of(context).size.width,
-                               // height:
-                                //MediaQuery.of(context).size.height * 0.2,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 0,
-                                          horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              0.03),
-                                      child: Text(
-                                          snapshot.data.docs[position]['title'],
-                                          style: TextStyle(
-                                              fontSize: 20, color: Colors.black)),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 0,
-                                          horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              0.03),
-                                      child: Text("Author : ${
-                                          snapshot.data.docs[position]['author']}",
-                                          style: TextStyle(
-                                              fontSize: 17, color: Colors.black)),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 0,
-                                          horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              0.03),
-                                      child: Text("Category : ${
-                                          snapshot.data.docs[position]['category']}",
-                                          style: TextStyle(
-                                              fontSize: 17, color: Colors.black)),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 0,
-                                          horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              0.35),
-                                      child: MaterialButton(color:Color(0xffe2d2fe),child: Text("Delete"),onPressed: ()async{
-                                        if((snapshot.data.docs[position]['status']).compareTo("notavailable")==0)
-                                          {
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                backgroundColor: Colors.red,
-                                                behavior: SnackBarBehavior.floating,
-                                                elevation: 0,
-                                                content: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.transparent,
-                                                      borderRadius:
-                                                      BorderRadius.all(Radius.circular(20))),
-                                                  child: Text(
-                                                    "Cannot Delete as book is lended",
-                                                    style: TextStyle(
-                                                        fontStyle: FontStyle.italic,
-                                                        color: Colors.white),
-                                                  ),
-                                                )));
-                                          }
-                                        else
-                                          {
-                                            updatecoin(widget.email);
-                                            await FirebaseFirestore.instance.collection('books').doc(snapshot.data.docs[position]['id']).delete();
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                backgroundColor: Colors.red,
-                                                behavior: SnackBarBehavior.floating,
-                                                elevation: 0,
-                                                content: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.transparent,
-                                                      borderRadius:
-                                                      BorderRadius.all(Radius.circular(20))),
-                                                  child: Text(
-                                                    "Successfull",
-                                                    style: TextStyle(
-                                                        fontStyle: FontStyle.italic,
-                                                        color: Colors.white),
-                                                  ),
-                                                )));
-                                          }
-                                        setState(() {
-                                        });
-                                      },),
-                                    )
+                            child: Container(
+                              // width: MediaQuery.of(context).size.width,
+                             // height:
+                              //MediaQuery.of(context).size.height * 0.2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 0,
+                                        horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.03),
+                                    child: Text(
+                                        snapshot.data.docs[position]['title'],
+                                        style: TextStyle(
+                                            fontSize: 20, color: Colors.black)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 0,
+                                        horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.03),
+                                    child: Text("Author : ${
+                                        snapshot.data.docs[position]['author']}",
+                                        style: TextStyle(
+                                            fontSize: 17, color: Colors.black)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 0,
+                                        horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.03),
+                                    child: Text("Category : ${
+                                        snapshot.data.docs[position]['category']}",
+                                        style: TextStyle(
+                                            fontSize: 17, color: Colors.black)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 0,
+                                        horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.35),
+                                    child: MaterialButton(color:Color(0xffe2d2fe),child: Text("Delete"),onPressed: ()async{
+                                      if((snapshot.data.docs[position]['status']).compareTo("notavailable")==0)
+                                        {
+                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                              backgroundColor: Colors.red,
+                                              behavior: SnackBarBehavior.floating,
+                                              elevation: 0,
+                                              content: Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.transparent,
+                                                    borderRadius:
+                                                    BorderRadius.all(Radius.circular(20))),
+                                                child: Text(
+                                                  "Cannot Delete as book is lended",
+                                                  style: TextStyle(
+                                                      fontStyle: FontStyle.italic,
+                                                      color: Colors.white),
+                                                ),
+                                              )));
+                                        }
+                                      else
+                                        {
+                                          updatecoin(widget.email);
+                                          await FirebaseFirestore.instance.collection('books').doc(snapshot.data.docs[position]['id']).delete();
+                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                              backgroundColor: Colors.red,
+                                              behavior: SnackBarBehavior.floating,
+                                              elevation: 0,
+                                              content: Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.transparent,
+                                                    borderRadius:
+                                                    BorderRadius.all(Radius.circular(20))),
+                                                child: Text(
+                                                  "Successfull",
+                                                  style: TextStyle(
+                                                      fontStyle: FontStyle.italic,
+                                                      color: Colors.white),
+                                                ),
+                                              )));
+                                        }
+                                      setState(() {
+                                      });
+                                    },),
+                                  )
 
-                                  ],
-                                ),
+                                ],
                               ),
                             ),
                           ),

@@ -1,5 +1,6 @@
 import 'package:bookspot/authentication.dart';
 import 'package:bookspot/borrowedbooks.dart';
+import 'package:bookspot/help.dart';
 import 'package:bookspot/lendedbooks.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,12 @@ class _DrawerMainState extends State<DrawerMain> {
                       ListTile(
                         leading:Icon( Icons.help_outline_outlined),
                         title: Text("Help",style: TextStyle(fontSize: 18),),
-                        onTap: (){},
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                  pageBuilder: (_, a1, a2) =>Help(widget.email)));
+                        },
 
                       ),
                       ListTile(

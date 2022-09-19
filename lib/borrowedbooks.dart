@@ -110,7 +110,7 @@ class _BorrowedListState extends State<BorrowedList> {
                                                           a2) => ViewProfile(snapshot.data.docs[position]['lender'])));
 
                                             },
-                                            child: Expanded(child: Text('${snapshot.data.docs[position]['lender']}',maxLines: 1,style: TextStyle(fontStyle:FontStyle.italic,decoration:TextDecoration.underline,color: Colors.white),))),
+                                            child: Text('${snapshot.data.docs[position]['lender']}',maxLines: 1,style: TextStyle(fontStyle:FontStyle.italic,decoration:TextDecoration.underline,color: Colors.white),)),
                                       ],
                                     ),
                                     Padding(
@@ -195,7 +195,7 @@ class _BorrowedListState extends State<BorrowedList> {
                                                         a2) => ViewProfile(snapshot.data.docs[position]['lender'])));
 
                                           },
-                                          child: Expanded(child: Text('${snapshot.data.docs[position]['lender']}',maxLines: 1,style: TextStyle(fontStyle:FontStyle.italic,decoration:TextDecoration.underline,color: Colors.black),))),
+                                          child: Text('${snapshot.data.docs[position]['lender']}',maxLines: 1,style: TextStyle(fontStyle:FontStyle.italic,decoration:TextDecoration.underline,color: Colors.black),)),
                                     ],
                                   ),
                                 ),

@@ -121,11 +121,9 @@ class _LendViewState extends State<LendView> {
                                               a2) => ViewProfile(snapshot.data.docs[position]['borrower'])));
 
                                 },
-                                child: Expanded(
-                                  child: Text('${snapshot.data.docs[position]['borrower']}',maxLines: 1, style: TextStyle(
-                                      fontStyle:FontStyle.italic,decoration:TextDecoration.underline,
-                                        color: Colors.white)),
-                                ),
+                                child: Text('${snapshot.data.docs[position]['borrower']}',maxLines: 1, style: TextStyle(
+                                    fontStyle:FontStyle.italic,decoration:TextDecoration.underline,
+                                      color: Colors.white)),
                               ),
                               ],
                             ),
@@ -201,10 +199,8 @@ class _LendViewState extends State<LendView> {
                                             a2) => ViewProfile(snapshot.data.docs[position]['borrower'])));
 
                               },
-                              child: Expanded(
-                                child: Text('${snapshot.data.docs[position]['borrower']}',maxLines:1,style: TextStyle(fontStyle:FontStyle.italic,decoration:TextDecoration.underline,
-                                     color: Colors.black),),
-                              ),
+                              child: Text('${snapshot.data.docs[position]['borrower']}',maxLines:1,style: TextStyle(fontStyle:FontStyle.italic,decoration:TextDecoration.underline,
+                                   color: Colors.black),),
                             ),
                               ],
                             ),
